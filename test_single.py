@@ -1,5 +1,4 @@
-from context import Harmonics_Analysis
-from Harmonics_Analysis.trace_anal import * 
+from trace_anal import * 
 import numpy as np 
 import matplotlib.pyplot as plt 
 """ Defining test signal and background"""

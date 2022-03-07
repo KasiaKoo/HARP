@@ -1,6 +1,5 @@
-from context import Harmonics_Analysis
-from Harmonics_Analysis.scan_anal import *
-from Harmonics_Analysis.iris_functions import Iris
+from scan_anal import *
+from iris_functions import Iris
 import os
 from scipy.optimize import curve_fit
 import warnings

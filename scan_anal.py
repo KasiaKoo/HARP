@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt 
-from context import Harmonics_Analysis 
-from Harmonics_Analysis.trace_anal import *
+from trace_anal import *
 import os 
 from tqdm import tqdm
 from scipy.signal import savgol_filter

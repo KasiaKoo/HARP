@@ -1,8 +1,6 @@
 import numpy as np
 from PIL import Image
-from context import Harmonics_Analysis
-from Harmonics_Analysis import units
-from Harmonics_Analysis import peakfinder as pk
+import units
 from scipy.optimize import curve_fit
 from scipy.signal import find_peaks, savgol_filter
 eV_times_m = units.Unit().eV_times_m
