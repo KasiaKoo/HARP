@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt 
-from trace_anal import *
+from trace_anal import HarmonicTrace
 import os 
 from tqdm import tqdm
 from scipy.signal import savgol_filter
@@ -9,6 +9,8 @@ import glob
 import h5py as h5
 from itertools import product
 from matplotlib.patches import Rectangle
+import sys
+sys.path.append(os.getcwd())
 
 class Scan():
 
