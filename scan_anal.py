@@ -187,6 +187,8 @@ class Scan():
             df = self.scan_data
         temp_df = df.copy(deep=True)
         temp_df['val'] = temp_df.apply(lambda row: row.Data.data, axis=1)
+
+        ave = temp_df.groupby(stage)['val'].apply(lambda x: np.mean(x, axis=0))
         x = ave.index.values
         ave = temp_df.groupby(stage)['val'].apply(lambda x: np.mean(x, axis=0))
         Z = np.stack(ave.values)
