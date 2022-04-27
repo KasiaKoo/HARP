@@ -69,6 +69,24 @@ class Scan():
 
     """ Different ways to make populate scans with data"""
 
+    def populate_scan_OOLI(self, files, variables, stage, function):
+        # for i in tqdm(range(len(files))):
+
+        for i in leniterate([all_arrays]):
+            file = os.path.join(self.folder,files[i])
+            step = variables[i]
+            tr_temp = HarmonicTrace()
+            tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
+            tr_temp.load_data_tiff(file)
+            tr_temp.get_background(bg_lim = self.bg_lim)
+            tr_temp.set_MCPpos(self.scan_params['MCP Pos']) 
+            tr_temp.specify_spectrometer_calib(function)
+            tr_temp.set_eVlim(self.eV_lim[0], self.eV_lim[1])
+            temp_dict = self.scan_params 
+            temp_dict[stage] = step
+            temp_dict['Data'] = tr_temp
+            self.scan_data = self.scan_data.append(temp_dict,ignore_index=True)
+
     def populate_scan_manual(self, files, variables, stage, function):
         for i in tqdm(range(len(files))):
             file = os.path.join(self.folder,files[i])
@@ -160,6 +178,21 @@ class Scan():
         if len(self.bump)!=0:
             Z = Z-self.bump
             Z[Z<0]=0
+        y = self.scan_data['Data'][0].eV_axis
+        return x, y, Z
+
+
+    def return_scan_data_slab(self, stage, df = False):
+        if type(df) == bool:
+            df = self.scan_data
+        temp_df = df.copy(deep=True)
+        temp_df['val'] = temp_df.apply(lambda row: row.Data.data, axis=1)
+        x = ave.index.values
+        ave = temp_df.groupby(stage)['val'].apply(lambda x: np.mean(x, axis=0))
+        Z = np.stack(ave.values)
+        x = x.reshape(x.shape[0],1)*np.ones([x.shape[0],Z.shape[1]])
+        Z = Z.reshape(Z.shape[0]*Z.shape[1], Z.shape[2])
+        x = x.reshape(Z.shape[0])
         y = self.scan_data['Data'][0].eV_axis
         return x, y, Z
 
