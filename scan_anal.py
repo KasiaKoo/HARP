@@ -195,7 +195,7 @@ class Scan():
         x = x.reshape(x.shape[0],1)*np.ones([x.shape[0],Z.shape[1]])
         Z = Z.reshape(Z.shape[0]*Z.shape[1], Z.shape[2])
         x = x.reshape(Z.shape[0])
-        y = self.scan_data['Data'][0].eV_axis
+        y = self.scan_data['Data'][0].nm_axis
         return x, y, Z
 
     #Plotting Functions
