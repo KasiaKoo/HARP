@@ -69,21 +69,23 @@ class Scan():
 
     """ Different ways to make populate scans with data"""
 
-    def populate_scan_OOLI(self, files, variables, stage, function):
-        # for i in tqdm(range(len(files))):
-
-        for i in leniterate([all_arrays]):
-            file = os.path.join(self.folder,files[i])
-            step = variables[i]
+    def populate_scan_OOLI(self, stage_dict, function):
+        flat_lists = [[item for item in stage_dict[key]] for key in list(stage_dict.keys())]
+        combinations = list(product(*flat_lists))
+        stages = list(stage_dict.keys())
+        count = 1
+        for i in tqdm(range(len(combinations))):
+            file = os.path.join(self.folder,'{}.npy'.format(count))
+            count +=1 
             tr_temp = HarmonicTrace()
             tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
-            tr_temp.load_data_tiff(file)
+            tr_temp.load_data_npy(file)
             tr_temp.get_background(bg_lim = self.bg_lim)
             tr_temp.set_MCPpos(self.scan_params['MCP Pos']) 
             tr_temp.specify_spectrometer_calib(function)
-            tr_temp.set_eVlim(self.eV_lim[0], self.eV_lim[1])
+            # tr_temp.set_eVlim(self.eV_lim[0], self.eV_lim[1])
             temp_dict = self.scan_params 
-            temp_dict[stage] = step
+            temp_dict.update({key:value for (key,value) in zip(stages,combinations[i])})
             temp_dict['Data'] = tr_temp
             self.scan_data = self.scan_data.append(temp_dict,ignore_index=True)
 

@@ -41,6 +41,11 @@ class HarmonicTrace():
     def crop_ver(self):
         self.data = self.data[self.ver_lim[0]:self.ver_lim[1],:]
 
+    def load_data_npy(self, npyfile):
+        array = np.load(npyfile)
+        self.data = array[self.ver_lim[0]:self.ver_lim[1],:]
+        self.data_og = array[self.ver_lim[0]:self.ver_lim[1],:]
+        self.pix_axis = np.arange(self.data.shape[1])
     def load_data_tiff(self, tifffile):
         pic = Image.open(tifffile)
         self.data = np.array(pic).astype('float32')[self.ver_lim[0]:self.ver_lim[1],:]

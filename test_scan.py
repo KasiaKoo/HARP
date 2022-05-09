@@ -26,7 +26,8 @@ test = Scan()
 test.set_verlim(None, None)
 test.set_eVlim((5,35))
 test_manual = False
-test_h5=True
+test_h5=False
+test_OOLI = True
 
 if test_manual == True:
     folder = '../../Data/2022-01-28/Iris_scan_SampleX-10_Y-5.25_Z6.8_rot_2_MgO_SWIRMCP1200V_scanningDown_MCPpos70'
@@ -44,6 +45,11 @@ elif test_h5 == True:
     test.set_params(wedge=1060, MCPPos=70000)
     test.populate_scan_h5(h5_file, function = Andor_calib)
 
+elif test_OOLI == True:
+    test.set_folder('/Volumes/qolslc/reddragon/data-rep/SolidHHG/20220407/Scan_MCP1850V_1cm_LaserPower350atmax_SiO2400um')
+    test.set_params(MCPPos=70000)
+    dictionary = {'iris': np.linspace(23,30,7)[::-1], 'wedge':np.linspace(0,20,6), 'focus':np.linspace(0,45,4)}
+    test.populate_scan_OOLI(dictionary, function=Andor_calib)
 
 
 
