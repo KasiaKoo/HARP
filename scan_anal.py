@@ -74,7 +74,7 @@ class Scan():
         flat_lists = [[item for item in stage_dict[key]] for key in list(stage_dict.keys())]
         combinations = list(product(*flat_lists))
         stages = list(stage_dict.keys())
-        count = 1
+        count = 0
         for i in tqdm(range(len(combinations))):
             file = os.path.join(self.folder,'{}.npy'.format(count))
             count +=1 
