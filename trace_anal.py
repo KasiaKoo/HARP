@@ -42,7 +42,7 @@ class HarmonicTrace():
         self.data = self.data[self.ver_lim[0]:self.ver_lim[1],:]
 
     def load_data_npy(self, npyfile):
-        array = np.load(npyfile)
+        array = np.load(npyfile).T
         self.data = array[self.ver_lim[0]:self.ver_lim[1],:]
         self.data_og = array[self.ver_lim[0]:self.ver_lim[1],:]
         self.pix_axis = np.arange(self.data.shape[1])

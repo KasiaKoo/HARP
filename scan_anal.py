@@ -21,7 +21,8 @@ class Scan():
         self.scan_params = {'iris':None,
                             'wedge':None, 
                             'rotation':None, 
-                            'MCP Pos':None}
+                            'MCP Pos':None,
+                            'Lens':0}
         self.folder = ''
         self.eV_lim = (0,500)
         self.bg_lim = [0,500,10,10]
