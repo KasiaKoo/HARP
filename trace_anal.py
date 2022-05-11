@@ -51,6 +51,7 @@ class HarmonicTrace():
         arr = np.array(pic).astype('float32').T
         self.data = arr[self.ver_lim[0]:self.ver_lim[1],:]
         self.data_og = arr[self.ver_lim[0]:self.ver_lim[1],:]
+        self.pix_axis = np.arange(self.data.shape[1])
         return self
 
 
