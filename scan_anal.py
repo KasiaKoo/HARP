@@ -76,7 +76,7 @@ class Scan():
         stages = list(stage_dict.keys())
         count = 0
         for i in tqdm(range(len(combinations))):
-            file = os.path.join(self.folder,'{}.npy'.format(count))
+            file = os.path.join(self.folder,'{}.bmp'.format(count))
             count +=1 
             tr_temp = HarmonicTrace()
             tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
