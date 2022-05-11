@@ -48,8 +48,9 @@ class HarmonicTrace():
         self.pix_axis = np.arange(self.data.shape[1])
     def load_data_tiff(self, tifffile):
         pic = Image.open(tifffile)
-        self.data = np.array(pic).astype('float32')[self.ver_lim[0]:self.ver_lim[1],:]
-        self.data_og = np.array(pic).astype('float32')[self.ver_lim[0]:self.ver_lim[1],:]
+        arr = np.array(pic).astype('float32').T
+        self.data = arr[self.ver_lim[0]:self.ver_lim[1],:]
+        self.data_og = arr[self.ver_lim[0]:self.ver_lim[1],:]
         return self
 
 
