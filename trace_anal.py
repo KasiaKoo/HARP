@@ -29,6 +29,10 @@ class HarmonicTrace():
         self.MCP_pos = value
         return self
 
+    def set_wl0(self, value = 1800e-9):
+        self.wl0 = value
+        self.eV0 = eV_times_m/self.wl0
+
     def set_verlim(self, low, high):
         self.ver_lim = (low, high)
         return self

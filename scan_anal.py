@@ -30,6 +30,7 @@ class Scan():
         self.ver_lim = (None, None)
         self.unmasked_data = pd.DataFrame(columns = ['Data', 'iris', 'wedge', 'rotation', 'MCP Pos'])
         self.bump = []
+        self.wl0 = 1800e-9
 
     def exclude_manual(self, file):
         self.scan_exclude.append(file)
@@ -37,11 +38,12 @@ class Scan():
     def set_folder(self, folder):
         self.folder = folder
 
-    def set_params(self, iris=None, wedge=None, rotation=None, MCPPos=None):
+    def set_params(self, iris=None, wedge=None, rotation=None, MCPPos=None, wl0=1800e-9):
         self.scan_params['iris'] = iris
         self.scan_params['wedge'] = wedge
         self.scan_params['rotation'] = rotation
         self.scan_params['MCP Pos'] = MCPPos
+        self.wl0 = wl0
 
     def set_eVlim(self, ev_lim):
         self.eV_lim = ev_lim
@@ -80,6 +82,7 @@ class Scan():
             count +=1 
             tr_temp = HarmonicTrace()
             tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
+            tr_temp.set_wl0(self.wl0)
             tr_temp.load_data_tiff(file)
             tr_temp.get_background(bg_lim = self.bg_lim)
             tr_temp.set_MCPpos(self.scan_params['MCP Pos']) 
@@ -100,6 +103,7 @@ class Scan():
             count +=1 
             tr_temp = HarmonicTrace()
             tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
+            tr_temp.set_wl0(self.wl0)
             tr_temp.load_data_npy(file)
             tr_temp.get_background(bg_lim = self.bg_lim)
             tr_temp.set_MCPpos(self.scan_params['MCP Pos']) 
@@ -116,6 +120,7 @@ class Scan():
             step = variables[i]
             tr_temp = HarmonicTrace()
             tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
+            tr_temp.set_wl0(self.wl0)
             tr_temp.load_data_tiff(file)
             tr_temp.get_background(bg_lim = self.bg_lim)
             if stage != 'MCP Pos':
@@ -148,6 +153,7 @@ class Scan():
         for d in tqdm(range(data.shape[0])):
             tr_temp = HarmonicTrace()
             tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
+            tr_temp.set_wl0(self.wl0)
             tr_temp.load_data_array(data[d])
             tr_temp.get_background(bg_lim = self.bg_lim)
             tr_temp.set_MCPpos(self.scan_params['MCP Pos'])
