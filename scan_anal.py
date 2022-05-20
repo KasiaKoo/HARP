@@ -22,7 +22,7 @@ class Scan():
                             'wedge':None, 
                             'rotation':None, 
                             'MCP Pos':None,
-                            'Lens':0}
+                            'lens':0}
         self.folder = ''
         self.eV_lim = (0,500)
         self.bg_lim = [0,500,10,10]
@@ -177,6 +177,8 @@ class Scan():
         test1 = self.scan_data.copy()
         test1['data'] = test1.apply(lambda row: row.Data.data, axis=1)
         test1['eV'] = test1.apply(lambda row: row.Data.eV_axis, axis=1)
+        test1['ver'] = test1.apply(lambda row: row.Data.ver_lim, axis=1)
+        test1['wl0'] = test1.apply(lambda row: row.Data.wl0, axis=1)
         test1 = test1.drop(['Data'], axis=1)
         np.savez(os.path.join(save_folder, save_name), 
                 iris = test1['iris'].values, 
