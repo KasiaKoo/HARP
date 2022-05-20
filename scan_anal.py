@@ -185,7 +185,7 @@ class Scan():
                 intensity = test1['intensity'].values,
                 wedge=test1['wedge'].values,
                 rotation=test1['rotation'].values,
-                lens=test1['Lens'].values,
+                lens=test1['lens'].values,
                 mcppos=test1['MCP Pos'].values, 
                 data=test1['data'].values,
                 ver=test1['ver'].values,
