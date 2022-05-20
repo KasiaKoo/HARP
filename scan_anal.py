@@ -172,6 +172,38 @@ class Scan():
     def add_calibration_stage(self, name, function, stage):
         self.scan_data[name] = self.scan_data[stage].apply(function).round(2)
 
+    
+    def save_npz(self, save_folder, save_name):
+        test1 = self.scan_data.copy()
+        test1['data'] = test1.apply(lambda row: row.Data.data, axis=1)
+        test1['eV'] = test1.apply(lambda row: row.Data.eV_axis, axis=1)
+        test1 = test1.drop(['Data'], axis=1)
+        np.savez(os.path.join(save_folder, save_name), 
+                iris = test1['iris'].values, 
+                intensity = test1['intensity'].values,
+                wedge=test1['wedge'].values,
+                rotation=test1['rotation'].values,
+                lens=test1['Lens'].values,
+                mcppos=test1['MCP Pos'].values, 
+                data=test1['data'].values,
+                ver=test1['ver'].values,
+                wl0=test1['wl0'].values,
+                eV = test1['eV'].values)
+
+    def load_npz(self,save_folder, save_name):
+        df = pd.DataFrame()
+        with np.load(os.path.join(save_folder, save_name), allow_pickle=True) as f:
+            df['iris'] = f['iris'] 
+            df['intensity'] = f['intensity']
+            df['wedge'] = f['wedge']
+            df['rotation'] = f['rotation']
+            df['Lens'] = f['lens']
+            df['MCP Pos'] = f['mcppos'] 
+            df['data'] = f['data']
+            df['eV'] = f['eV']
+            df['ver'] = f['ver']
+            df['wl0'] = f['wl0']
+        return df
 
     def sort_by_stage(self, stage):
         self.scan_data = self.scan_data.sort_values(by=stage)
