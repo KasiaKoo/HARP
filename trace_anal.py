@@ -57,7 +57,13 @@ class HarmonicTrace():
         self.data_og = arr[self.ver_lim[0]:self.ver_lim[1],:]
         self.pix_axis = np.arange(self.data.shape[1])
         return self
-
+    def load_data_bmp(self, bmpfile):
+        pic = Image.open(bmpfile)
+        arr = np.array(pic).astype('float32').T
+        self.data = arr[self.ver_lim[0]:self.ver_lim[1],:]
+        self.data_og = arr[self.ver_lim[0]:self.ver_lim[1],:]
+        self.pix_axis = np.arange(self.data.shape[1])
+        return self
 
     def set_eVlim(self, low, high):
         self.eV_lim = (low, high)

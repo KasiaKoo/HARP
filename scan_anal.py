@@ -83,7 +83,7 @@ class Scan():
             tr_temp = HarmonicTrace()
             tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
             tr_temp.set_wl0(self.wl0)
-            tr_temp.load_data_tiff(file)
+            tr_temp.load_data_bmp(file)
             tr_temp.get_background(bg_lim = self.bg_lim)
             tr_temp.set_MCPpos(self.scan_params['MCP Pos']) 
             tr_temp.specify_spectrometer_calib(function)
