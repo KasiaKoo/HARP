@@ -168,7 +168,7 @@ class Scan():
             self.scan_data = self.scan_data.append(temp_dict,ignore_index=True)
 
 
-    def populate_scan_h5_bypart(self,h5_file, function, bypart=(0,-1):
+    def populate_scan_h5_bypart(self,h5_file, function, bypart=(0,-1)):
         fps = glob.glob(os.path.join(self.folder, h5_file))
         for idx, fp in enumerate(fps):
             with h5.File(fp, 'r') as f:
