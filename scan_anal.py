@@ -168,6 +168,39 @@ class Scan():
             self.scan_data = self.scan_data.append(temp_dict,ignore_index=True)
 
 
+    def populate_scan_h5_bypart(self,h5_file, function, bypart=(0,-1):
+        fps = glob.glob(os.path.join(self.folder, h5_file))
+        for idx, fp in enumerate(fps):
+            with h5.File(fp, 'r') as f:
+                stages = np.array(f['Settings']['Axes']['Names'])
+                positions = np.array(f['Settings']['Axes']['Positions'])
+                data_t = np.array(f['Data'][bypart[0]:bypart[1],:,:])
+                data_t = data_t[:,:,:]
+                if idx == 0:
+                    data= np.zeros((len(fps),*data_t.shape))
+                
+                data[idx]=data_t
+        data = data.sum(axis=0)
+        positions_combo = list(product(*positions['Positions'][::-1]))
+        stages = [i.decode('utf-8').lower() for i in stages]
+        
+        for d in tqdm(range(data.shape[0])):
+            tr_temp = HarmonicTrace()
+            tr_temp.set_verlim(self.ver_lim[0], self.ver_lim[1])
+            tr_temp.set_wl0(self.wl0)
+            tr_temp.load_data_array(data[d])
+            tr_temp.get_background(bg_lim = self.bg_lim)
+            tr_temp.set_MCPpos(self.scan_params['MCP Pos'])
+            tr_temp.specify_spectrometer_calib(function)
+            tr_temp.set_eVlim(self.eV_lim[0], self.eV_lim[1])
+            temp_dict = self.scan_params.copy()
+            #set different stages
+            for s in range(len(stages)):
+                stage = stages[s]
+                temp_dict[stage] = positions_combo[d][::-1][s]
+            temp_dict['Data'] = tr_temp
+            self.scan_data = self.scan_data.append(temp_dict,ignore_index=True)
+        print('loaded from {} to {} out of {}'.format(bypart[0], bypart[1], len(positions_combo)))
 
     def add_calibration_stage(self, name, function, stage):
         self.scan_data[name] = self.scan_data[stage].apply(function).round(2)
@@ -199,7 +232,7 @@ class Scan():
             df['intensity'] = f['intensity']
             df['wedge'] = f['wedge']
             df['rotation'] = f['rotation']
-            df['Lens'] = f['lens']
+            df['lens'] = f['lens']
             df['MCP Pos'] = f['mcppos'] 
             df['data'] = f['data']
             df['eV'] = f['eV']
