@@ -181,7 +181,7 @@ class Scan():
                 
                 data[idx]=data_t
         data = data.sum(axis=0)
-        positions_combo = list(product(*positions['Positions'][::-1]))
+        positions_combo = list(product(*positions['Positions'][::-1]))[bypart[0]:bypart[1]]
         stages = [i.decode('utf-8').lower() for i in stages]
         
         for d in tqdm(range(data.shape[0])):
