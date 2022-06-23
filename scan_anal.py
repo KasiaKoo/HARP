@@ -174,7 +174,7 @@ class Scan():
             with h5.File(fp, 'r') as f:
                 stages = np.array(f['Settings']['Axes']['Names'])
                 positions = np.array(f['Settings']['Axes']['Positions'])
-                data_t = np.array(f['Data'][bypart[0]:bypart[1],:,:])
+                data_t = np.array(f['Data'][bypart[0]:bypart[1],:,:]).astype(np.float16)
                 data_t = data_t[:,:,:]
                 if idx == 0:
                     data= np.zeros((len(fps),*data_t.shape))
