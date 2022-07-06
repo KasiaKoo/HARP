@@ -13,8 +13,10 @@ from matplotlib.patches import Rectangle
 
 
 class h5object():
+    # class to open the h5 files more easily - you can use it to open only specific data from h5
 
     def __init__(self, folder = './', file = 'h5file.h5'):
+        #
         self.folder_path =folder
         self.h5file = file
         self.positions_combo = []
@@ -31,6 +33,7 @@ class h5object():
         self.h5file = file
         
     def load_stages(self):
+        #this method should be used first after initiation of the class - after this you can view what stages etc are included
         self.fps = glob.glob(os.path.join(self.folder_path, self.h5file))
         for idx, fp in enumerate(self.fps):
             with h5.File(fp, 'r') as f:
@@ -66,6 +69,7 @@ class h5object():
         self.naming_dic = naming_dic
     
     def find_mask(self, stage_name, pos_stage):
+        #this method should be used to find specific data by specifying stage and values (either range or single value for that stage)
         if type(pos_stage)==tuple:
             self.mask = (self.masking_array[self.naming_dic[stage_name]]>=pos_stage[0])*(self.masking_array[self.naming_dic[stage_name]]<=pos_stage[1])
         else:
@@ -74,6 +78,7 @@ class h5object():
         self.masked_idx = self.masking_array[0,self.mask]
     
     def load_data(self):
+        # use this after load stage and find mask to load up specific part of h5file
         for idx, fp in enumerate(self.fps):
             with h5.File(fp, 'r') as f:
                 self.data = np.array(f['Data'][self.masked_idx,:,:])
