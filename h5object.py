@@ -81,7 +81,7 @@ class h5object():
         # use this after load stage and find mask to load up specific part of h5file
         for idx, fp in enumerate(self.fps):
             with h5.File(fp, 'r') as f:
-                self.data = np.array(f['Data'][self.masked_idx,:,:])
+                self.data = np.array(f['Data'][self.masked_idx.astype('int'),:,:])
         
         self.pos_df['data'][self.masked_idx] = list(self.data)
 
