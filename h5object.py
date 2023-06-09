@@ -86,9 +86,21 @@ class h5object():
         self.pos_df['data'][self.masked_idx] = list(self.data)
 
         
+     def load_minidata(self):
+        # use this after load stage and find mask to load up specific part of h5file
+        for idx, fp in enumerate(self.fps):
+            with h5.File(fp, 'r') as f:
+                self.data = np.sum(np.array(f['Data'][self.masked_idx.astype('int'),:,:]), axis = 1)
+        
+        self.pos_df['data'][self.masked_idx] = list(self.data)   
     
-    
-    
+      def showMCP(self, idx):
+        # use this after load stage and find mask to load up specific part of h5file
+        for idx, fp in enumerate(self.fps):
+            with h5.File(fp, 'r') as f:
+                trace = np.array(f['Data'][idx,:,:])
+        
+        return trace 
 
         
     
